@@ -6,7 +6,7 @@ function verMas(nombre, imagen, descripcion) {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, mostrar detalles",
+        confirmButtonText: "Mostrar detalles",
         cancelButtonText: "Cancelar"
     }).then((result) => {
         if (result.isConfirmed) {
@@ -20,13 +20,14 @@ function verMas(nombre, imagen, descripcion) {
                 showCancelButton: true,
                 confirmButtonColor: "#28a745",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Comprar ahora",
+                confirmButtonText: "Agregar al Carrito",
                 cancelButtonText: "Cancelar"
             }).then((resultCompra) => {
                 if (resultCompra.isConfirmed) {
+                    agregarAlCarrito(nombre, imagen, descripcion);
                     Swal.fire({
-                        title: "¡Gracias por tu compra!",
-                        text: "El proceso de compra ha comenzado. Nos pondremos en contacto contigo.",
+                        title: "¡Se ha agregado al carrito de compras!",
+                        text: "Para completar la compra, dirígete al carrito de compras.",
                         icon: "success"
                     });
                 } else if (resultCompra.isDismissed) {
@@ -40,6 +41,14 @@ function verMas(nombre, imagen, descripcion) {
         }
     });
 }
+
+function agregarAlCarrito(nombre, imagen, descripcion) {
+    const vehiculo = { nombre, imagen, descripcion };
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    carrito.push(vehiculo);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
 
 // Mostrar formulario de agendar cita
 function mostrarFormularioCita() {
